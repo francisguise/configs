@@ -3,57 +3,55 @@
 " " version: 1
 " " author:  fguise
 " "
- filetype plugin on
+filetype plugin on
 
- syntax on
- "colorscheme moose
-
-
- "Basic Settings
- set title        "sets the terminal window title
- set ruler        "shows current cursor position on lower right corner
- set number       "show line numbers
- set list         "lets list to show the tab and whitspace chars
- set nowrap       "disables text wrapping
- set ai           "enables auto indent
- set incsearch    "searches for text as typed
- set showmode     "displays the mode VI is in
- set showmatch    "jumps briefly to brace/parenthese/brackets match of current block when closing brace typed
- set showcmd      "shows aritalliy the command in the bottom right of screen
- set ignorecase   "ignores case sensitivity when searching
- set smartcase    "overrides 'ignorecase' when searching with capitals
- set wildmenu     "this enables code completion
- set ttyfast      "says we have a fast terminal, means more characters are passed back and forth"
- set hlsearch     "enable search highlighting
- set nocompatible "enable compatiblity
+syntax on
+"colorscheme moose
 
 
- "Assigns
- set shellcmdflag+=i                              "Append flags passed to shell when doing !cmd
- set laststatus=2                                 "shows indenting and line numers by defualt
-" set statusline=%<%f\ %h%m%r%=%-0.(%l,%c%V%)\ %P  "status line format
- set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ %{fugitive#statusline()}\ \ Line:\ %l
- set listchars=tab:>\ ,trail:.                    "show tabs as > and trailing whitespace as .
+"Basic Settings
+set title        "sets the terminal window title
+set ruler        "shows current cursor position on lower right corner
+set number       "show line numbers
+set list         "lets list to show the tab and whitspace chars
+set nowrap       "disables text wrapping
+set ai           "enables auto indent
+set incsearch    "searches for text as typed
+set showmode     "displays the mode VI is in
+set showmatch    "jumps briefly to brace/parenthese/brackets match of current block when closing brace typed
+set showcmd      "shows aritalliy the command in the bottom right of screen
+set ignorecase   "ignores case sensitivity when searching
+set smartcase    "overrides 'ignorecase' when searching with capitals
+set wildmenu     "this enables code completion
+set ttyfast      "says we have a fast terminal, means more characters are passed back and forth"
+set hlsearch     "enable search highlighting
+set nocompatible "enable compatiblity
+
+
+"Assigns
+set shellcmdflag+=i                              "Append flags passed to shell when doing !cmd
+set laststatus=2                                 "shows indenting and line numers by defualt
+set listchars=tab:>\ ,trail:.                    "show tabs as > and trailing whitespace as .
 " set shiftwidth=4                                 "number of spaces to use for each step of (auto)indent
- set t_Co=256                                     "sets the number of colours to 256
- set mouse=a                                      "defaults mouse on"
- set completeopt=menuone,longest                  "for code completion always show menu and use longest match prevents first option being selected without showing menu!
- set scrolloff=0                                  "sets scrolling happening x lines before beinging or end or file
- set backspace=indent,eol,start                   "allow backspacing over everything in insert mode
+set t_Co=256                                     "sets the number of colours to 256
+set mouse=a                                      "defaults mouse on"
+set completeopt=menuone,longest                  "for code completion always show menu and use longest match prevents first option being selected without showing menu!
+set scrolloff=0                                  "sets scrolling happening x lines before beinging or end or file
+set backspace=indent,eol,start                   "allow backspacing over everything in insert mode
 
 
- "Key mappings
- let g:SuperTabMappingForward   = '<nul>'   "shift-tab goes forward through autocompletion (backwards in my mind)
- let g:SuperTabMappingBackward  = '<s-nul>' "tab goes backwards through autocompletion (forwards in my mind)
- let g:omni_sql_no_default_maps = 1         "prevents default mapping in sql files
+"Key mappings
+let g:SuperTabMappingForward   = '<nul>'   "shift-tab goes forward through autocompletion (backwards in my mind)
+let g:SuperTabMappingBackward  = '<s-nul>' "tab goes backwards through autocompletion (forwards in my mind)
+let g:omni_sql_no_default_maps = 1         "prevents default mapping in sql files
 
- nnoremap <F2> :call ToggleMouse()<CR>
+nnoremap <F2> :call ToggleMouse()<CR>
 
- imap <NUL> <Space>
+imap <NUL> <Space>
 
- map <C-h> :set hlsearch!<CR>
- map <C-Z> <Nop>
- map <F3> :vsplit <CR>
+map <C-h> :set hlsearch!<CR>
+map <C-Z> <Nop>
+map <F3> :vsplit <CR>
 
 
  "Functions
@@ -67,14 +65,6 @@ function! ToggleMouse()
        set list number
        echo "Mouse usage enabled"
    endif
-endfunction
-
-" Returns true if paste mode is enabled
-function! HasPaste()
-  if &paste
-    return 'PASTE MODE  '
-  endif
-  return ''
 endfunction
 
 "New Syntax files
