@@ -87,8 +87,11 @@ set tabstop=4
 execute pathogen#infect()
 
 " nerdtree
-" autocmd vimenter * NERDTree
-" autocmd vimenter * if !argc() | NERDTree | endif
+autocmd vimenter * NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " vsp! .
 "
@@ -105,6 +108,14 @@ map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 map  n <Plug>(easymotion-next)
 map  N <Plug>(easymotion-prev)
+
+"map <C-n> :NERDTreeToggle<CR>
+"hi Directory ctermfg=3 ctermbg=4
+"colorscheme elflord
+"colorscheme calmar256-dark
+"colorscheme candy
+colorscheme elflord
+colorscheme vividchalk
 
 command Rw :%s=\s\+$==
 command Increment :let i=1 | .,$g/$/s/$/\=i/g | let i=i+1
