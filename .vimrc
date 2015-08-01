@@ -96,6 +96,15 @@ execute pathogen#infect()
 " ctag file
 :set tags=/space/work/B_LBR_Skyfall_ITG94841/tags
 
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+nmap s <Plug>(easymotion-s2)
+nmap t <Plug>(easymotion-t2
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
 
 command Rw :%s=\s\+$==
 command Increment :let i=1 | .,$g/$/s/$/\=i/g | let i=i+1
