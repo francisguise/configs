@@ -31,7 +31,8 @@
  "Assigns
  set shellcmdflag+=i                              "Append flags passed to shell when doing !cmd
  set laststatus=2                                 "shows indenting and line numers by defualt
- set statusline=%<%f\ %h%m%r%=%-0.(%l,%c%V%)\ %P  "status line format
+" set statusline=%<%f\ %h%m%r%=%-0.(%l,%c%V%)\ %P  "status line format
+ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ %{fugitive#statusline()}\ \ Line:\ %l
  set listchars=tab:>\ ,trail:.                    "show tabs as > and trailing whitespace as .
 " set shiftwidth=4                                 "number of spaces to use for each step of (auto)indent
  set t_Co=256                                     "sets the number of colours to 256
@@ -68,6 +69,14 @@ function! ToggleMouse()
    endif
 endfunction
 
+" Returns true if paste mode is enabled
+function! HasPaste()
+  if &paste
+    return 'PASTE MODE  '
+  endif
+  return ''
+endfunction
+
 "New Syntax files
 au BufRead,BufNewFile *.log set filetype=log
 "au BufRead,BufNewFile *.html set filetype=html
@@ -85,6 +94,7 @@ set tabstop=4
 
 " pathogen
 " call pathogen#infect()
+execute pathogen#infect()
 
 " nerdtree
 " autocmd vimenter * NERDTree

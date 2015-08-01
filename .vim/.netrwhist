@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/fguise/temp'
+let g:netrw_dirhist_2='/space/work/PPW/OBP2-334/backoffice-admin/tcl'
+let g:netrw_dirhist_3='/space/work/PPW/OBP2-256/backoffice-admin/tcl'
+let g:netrw_dirhist_4='/space/work/PPW/release/oxi/oxixmlserver'
+let g:netrw_dirhist_5='/space/work/PPW/get_procs_automation/aggregate-sportsbook/includes'
+let g:netrw_dirhist_6='/space/work/PPW/mk-db_config_cleanup/utilities-release-database'
+let g:netrw_dirhist_7='/space/home/.vim'
