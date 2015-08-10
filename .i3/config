@@ -173,4 +173,5 @@ exec --no-startup-id nm-applet
 exec --no-startup-id conky
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id pidgin
-#exec --no-startup-id xmodmap -e "keysym Menu = Win"
+exec --no-startup-id dunst -config ~/.github/configs/.dunstrc
+exec --no-startup-id xmodmap -e "keysym Menu = Super_L"
