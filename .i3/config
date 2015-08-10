@@ -133,6 +133,7 @@ bindsym Ctrl+Mod1+l exec i3lock
 bindsym F11 exec --no-startup-id pactl set-sink-volume 0 -- +10% && killall -SIGUSR1 i3status
 bindsym F10 exec --no-startup-id pactl set-sink-volume 0 -- -10% && killall -SIGUSR1 i3status
 bindsym F9  exec --no-startup-id pactl set-sink-mute   0 toggle
+bindsym F8  exec --no-startup-id /home/fguise/.github/configs/scripts/display_autosetup.sh
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
