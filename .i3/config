@@ -23,6 +23,21 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Turn off mouse over focus
+focus_follows_mouse no
+
+# Fonts
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+#font pango:DejaVu Sans Mono 10
+font pango:DejaVu Bold Semi-Expanded 8
+#font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
+#font pango:Terminus 11px
+new_window pixel 2
+for_window [class=".*"] title_format "[ %title ]"
+
+# Show popups when in fullscreen
+popup_during_fullscreen smart
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
@@ -36,11 +51,11 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# change focus (vim alternate)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -61,7 +76,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+v split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -135,6 +150,15 @@ bindsym F10 exec --no-startup-id pactl set-sink-volume 0 -- -10% && killall -SIG
 bindsym F9  exec --no-startup-id pactl set-sink-mute   0 toggle
 bindsym F8  exec --no-startup-id /home/fguise/.github/configs/scripts/display_autosetup.sh
 bindsym F7  exec --no-startup-id gsettings set org.gnome.desktop.background show-desktop-icons false
+bindsym F1  exec --no-startup-id kdesudo sh -c "echo mem > /sys/power/state" && i3lock
+bindsym F5  exec "scrot -u ~/Pictures/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png"
+#bindsym XF86Display exec "scrot -u ~/Downloads/Screenshot%Y-%m-%d%H:%M:%S.png"
+# The middle button over a titlebar kills the window
+bindsym --release button2 kill
+bindsym Alt+button1 exec --no-startup-id floating toggle
+bindsym Ctrl+Shift+o exec --no-startup-id gnome-terminal
+bindsym Ctrl+Shift+e exec --no-startup-id gnome-terminal
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -144,10 +168,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -165,13 +189,31 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+    colors {
+        #color class       border  back.   text
+        focused_workspace  #007030 #007030 #ffffff
+        active_workspace   #555555 #555555 #ffffff
+        inactive_workspace #000000 #000000 #888888
+        urgent_workspace   #2f343a #900000 #ffffff
+    }
+    status_command i3status
 }
+
+#colors:                border  backgr. text    indicator
+client.focused          #007030 #007030 #ffffff #2b2b2b
+client.focused_inactive #888888 #2b2b2b #ffffff #2b2b2b
+client.unfocused        #888888 #2b2b2b #ffffff #2b2b2b
+client.urgent           #900000 #900000 #ffffff #2b2b2b
 
 # Add netowork manager and conky to run on startup
 exec --no-startup-id nm-applet
 exec --no-startup-id conky
-exec --no-startup-id xmodmap ~/.Xmodmap
+#exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id pidgin
+exec --no-startup-id redshift  -l 52.72:4.9
 exec --no-startup-id dunst -config ~/.github/configs/.dunstrc
 exec --no-startup-id xmodmap -e "keysym Menu = Super_L"
+exec --no-startup-id xmodmap -e "keysym Menu = Super_L"
+exec --no-startup-id gnome-sound-applet
+exec --no-startup-id compton
+exec --no-startup-id sh ~/.fehbg

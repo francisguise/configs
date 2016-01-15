@@ -7,8 +7,6 @@ filetype plugin on
 
 syntax on
 "colorscheme moose
-
-
 "Basic Settings
 set title        "sets the terminal window title
 set ruler        "shows current cursor position on lower right corner
@@ -76,29 +74,32 @@ au! Syntax log source ~/.vim/syntax/log.vim
 "set to non-vi mode
 set smartindent
 set paste
-"set nocompatible
 set tabstop=4
-"set shiftwidth=4
-"turnes \t into \n set expandtab
-"set ts=4
+set shiftwidth=4
 
 " pathogen
-" call pathogen#infect()
-execute pathogen#infect()
+" call pathogen#runtime_append_all_bundles()
+" filetype off
+" call pathogen#helptags()
+"execute pathogen#infect()
+execute pathogen#infect('~/.vim/bundle/{}')
+syntax on
+filetype plugin indent on
 
 " nerdtree
-autocmd vimenter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd vimenter * NERDTree
+"autocmd VimEnter * wincmd p
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 "autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " vsp! .
 "
 
 " ctag file
 :set tags=/space/work/B_LBR_Skyfall_ITG94841/tags
+
 
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
@@ -114,9 +115,9 @@ map  N <Plug>(easymotion-prev)
 "hi Directory ctermfg=3 ctermbg=4
 "colorscheme elflord
 "colorscheme calmar256-dark
-"colorscheme candy
-colorscheme elflord
-colorscheme vividchalk
+colorscheme candy
+"colorscheme elflord
+"colorscheme vividchalk
 
 command Rw :%s=\s\+$==
 command Increment :let i=1 | .,$g/$/s/$/\=i/g | let i=i+1
