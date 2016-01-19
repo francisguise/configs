@@ -21,7 +21,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:DejaVu Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+floating_modifier Shift
 
 # Turn off mouse over focus
 focus_follows_mouse no
@@ -115,6 +115,11 @@ bindsym $mod+0 workspace 10
 bindsym Control+Mod1+Left workspace prev
 bindsym Control+Mod1+Right workspace next
 
+#bindsym Mod1+Left export CURRENT1-=1 ; workspace ${CURRENT1}
+#bindsym Mod1+Right export CURRENT1-=1 ; workspace ${CURRENT1}
+#bindsym Control+Left  export CURRENT2-=1 ; workspace ${CURRENT2}
+#bindsym Control+Right export CURRENT2-=1 ; workspace ${CURRENT2}
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
@@ -150,14 +155,14 @@ bindsym F10 exec --no-startup-id pactl set-sink-volume 0 -- -10% && killall -SIG
 bindsym F9  exec --no-startup-id pactl set-sink-mute   0 toggle
 bindsym F8  exec --no-startup-id /home/fguise/.github/configs/scripts/display_autosetup.sh
 bindsym F7  exec --no-startup-id gsettings set org.gnome.desktop.background show-desktop-icons false
-bindsym F1  exec --no-startup-id kdesudo sh -c "echo mem > /sys/power/state" && i3lock
+bindsym F1  exec --no-startup-id kdesudo i3lock & && sh -c "echo mem > /sys/power/state"
 bindsym F5  exec "scrot -u ~/Pictures/screenshots/Screenshot%Y-%m-%d%H:%M:%S.png"
 #bindsym XF86Display exec "scrot -u ~/Downloads/Screenshot%Y-%m-%d%H:%M:%S.png"
 # The middle button over a titlebar kills the window
 bindsym --release button2 kill
-bindsym Alt+button1 exec --no-startup-id floating toggle
-bindsym Ctrl+Shift+o exec --no-startup-id gnome-terminal
-bindsym Ctrl+Shift+e exec --no-startup-id gnome-terminal
+#bindsym Alt+button1 exec --no-startup-id floating toggle
+#bindsym Ctrl+Shift+o exec --no-startup-id gnome-terminal
+#bindsym Ctrl+Shift+e exec --no-startup-id gnome-terminal
 
 
 # resize window (you can also use the mouse for that)
@@ -207,9 +212,8 @@ client.urgent           #900000 #900000 #ffffff #2b2b2b
 
 # Add netowork manager and conky to run on startup
 exec --no-startup-id nm-applet
-exec --no-startup-id conky
 #exec --no-startup-id xmodmap ~/.Xmodmap
-exec --no-startup-id pidgin
+#exec --no-startup-id pidgin
 exec --no-startup-id redshift  -l 52.72:4.9
 exec --no-startup-id dunst -config ~/.github/configs/.dunstrc
 exec --no-startup-id xmodmap -e "keysym Menu = Super_L"
@@ -217,3 +221,22 @@ exec --no-startup-id xmodmap -e "keysym Menu = Super_L"
 exec --no-startup-id gnome-sound-applet
 exec --no-startup-id compton
 exec --no-startup-id sh ~/.fehbg
+
+# Workspace setup
+workspace 1 output $DISP1
+workspace 2 output $DISP1
+workspace 3 output $DISP1
+workspace 4 output $DISP1
+workspace 5 output $DISP1
+workspace 6 output $DISP2
+workspace 7 output $DISP2
+workspace 8 output $DISP2
+workspace 9 output $DISP2
+
+# Apps startup
+exec --no-startup-id i3-msg 'workspace 5; exec conky; exec pidgin'
+exec --no-startup-id i3-msg 'workspace 1; exec terminator'
+exec --no-startup-id i3-msg 'workspace 6; exec chromium https://mail.google.com'
+exec --no-startup-id i3-msg 'workspace 7; exec firefox'
+#exec --no-startup-id i3-msg 'workspace 8'
+exec --no-startup-id i3-msg 'workspace 9; exec google-chrome https://hotmail.com'
