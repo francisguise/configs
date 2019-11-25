@@ -52,18 +52,18 @@ map <C-Z> <Nop>
 map <F3> :vsplit <CR>
 
 
- "Functions
-function! ToggleMouse()
-   if &mouse == 'a'
-       set mouse=
-       set nolist nonumber
-       echo "Mouse usage disabled"
-   else
-       set mouse=a
-       set list number
-       echo "Mouse usage enabled"
-   endif
-endfunction
+""Functions
+"function! ToggleMouse()
+"   if &mouse == 'a'
+"       set mouse=
+"       set nolist nonumber
+"       echo "Mouse usage disabled"
+"   else
+"       set mouse=a
+"       set list number
+"       echo "Mouse usage enabled"
+"   endif
+"endfunction
 
 "New Syntax files
 au BufRead,BufNewFile *.log set filetype=log
@@ -104,12 +104,12 @@ filetype plugin indent on
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
-nmap s <Plug>(easymotion-s2)
-nmap t <Plug>(easymotion-t2
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n <Plug>(easymotion-next)
-map  N <Plug>(easymotion-prev)
+"nmap s <Plug>(easymotion-s2)
+"nmap t <Plug>(easymotion-t2
+"map  / <Plug>(easymotion-sn)
+"omap / <Plug>(easymotion-tn)
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
 
 "map <C-n> :NERDTreeToggle<CR>
 "hi Directory ctermfg=3 ctermbg=4
@@ -121,3 +121,15 @@ colorscheme candy
 
 command Rw :%s=\s\+$==
 command Increment :let i=1 | .,$g/$/s/$/\=i/g | let i=i+1
+set list
+
+
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-easy-align'
+call plug#end()
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)

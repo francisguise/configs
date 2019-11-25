@@ -1,0 +1,200 @@
+#
+# .bashrc
+#
+setup_aliases () {
+
+	alias unix2dos="/usr/bin/fromdos -u"
+	alias dos2unix="/usr/bin/fromdos -d"
+	alias tidy="echo -e *\\\tthis isn\'t really tidy\\\t* ;xmllint -format $@"
+	alias jlint="python -mjson.tool"
+	alias sl="find . -type l -exec ls -l {} \; 2> /dev/null"
+	alias psa="ps awwfux | less -S"
+	alias grep='grep --color=auto $@ 2> /dev/null'
+
+	alias news="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/news.pls" # MPR News 
+	alias current="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/the_current.pls" # The Current 
+	alias classical="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/classical.pls" # Classical MPR 
+	alias localcurrent="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/local.pls" # Local Current 
+	alias heartland="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/radio_heartland.pls" # MPR Radio Heartland 
+	alias wonderground="mplayer http://wondergroundstream2.publicradio.org/wonderground" # MPR Wonderground Windows Media 
+	alias choral="mplayer -playlist http://choralstream1.publicradio.org/choral.m3u" # Clasical MPR Choral
+	alias wefunk="mplayer -playlist http://www.wefunkradio.com/play/shoutcast.pls" # WEFUNK Radio MP3 64K
+	alias sleepbot="mplayer -playlist http://sleepbot.com/ambience/cgi/listen.cgi/listen.pls" # Sleepbot Environmental Broadcast 56K MP3
+	alias groovesalad="mplayer -playlist http://somafm.com/groovesalad130.pls" # Soma FM Groove Salad iTunes AAC 128K
+	alias dronezone="mplayer -playlist http://somafm.com/dronezone130.pls" # Soma FM Drone Zone iTunes AAC 128K
+	alias lush="mplayer -playlist http://somafm.com/lush130.pls" # Soma FM Lush iTunes AAC 128K
+	alias sonicuniverse="mplayer -playlist http://somafm.com/sonicuniverse.pls" # Soma FM Sonic Universe iTunes AAC 128K
+	alias onslaught='mplayer -cache 512 http://stream.onslaughtradio.com/high.pls'
+	alias rising_metal='mplayer -cache 512 http://radio4.forbidenhosting.com/tunein.php/dgarda00/playlist.pls'
+	alias snakemetalradio='mplayer -cache 512 http://www.snakenetmetalradio.com/snakenet96.pls'
+	alias ukjazz='mplayer -cache 512 http://sowebstreaming.co.uk/tunein.php/ukjazzradio/playlist.pls'
+	alias dub='mplayer -cache 512  http://www.sub.fm/listen.pls'
+	alias russian_pop='mplayer -cache 512 http://79.120.77.11:9057'
+	alias riel_ragtime='mplayer -cache 512 http://argon.slserver.com:8052/listen.pls'
+	alias mad_sky='mplayer -cache 512 http://207.200.96.229:8016'
+	alias blues_radio_uk='mplayer -cache 512 http://206.217.213.16:8430'
+	alias music='mplayer -cache 512 http://216.155.128.202:8118/;stream/1'
+	alias pirate_swedes='mplayer http://94.255.240.167:8100/lyssna'
+
+	alias external_ip="wget -O- http://ipecho.net/ 2> /dev/null | grep 'Your IP is' | cut -d ' ' -f4 | cut -d '<' -f1"
+	alias arrr='echo -e "\xE2\x98\xA0"'
+	alias hex="printf \"%x\n\" ${1};"
+	alias list_size="du -sh * | sort -s -n -k 1,1"
+	alias db="rlwrap dbaccess openbetmd_fitnesse -"
+	alias uskb="setxkbmap us"
+	alias ukkb="setxkbmap uk"
+	alias us="setxkbmap -layout us"
+	alias uk="setxkbmap -layout gb"
+	alias rshift="redshift  -l 52.72:4.9 &"
+	alias docker_cleanup="docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs -n 1 docker rm "
+	alias dip="docker inspect -f '{{ .NetworkSettings.IPAddress }}' $1"
+	alias mverify="find . -name target -type d | xargs -n 1 rm -rf &&  mvn -Dmaven.wagon.http.ssl.insecure=true verify"
+	alias genpwd="cat /dev/urandom | tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' | fold -w 12 | grep \"[a-z]\" | grep \"[A-Z]\" | grep \"[0-9]\" | grep -i '[!@#$%^&*()_+{}|:<>?=]' | head -n 8"
+	alias bat="upower -i /org/freedesktop/UPower/devices/battery_BAT0"
+}
+
+function dnet () {
+	local service="$1";
+	docker inspect -f '{{ json .NetworkSettings }}' $service | python -mjson.tool;
+}
+
+function dclookup () {
+	local service="$1";
+	wget -q -O- http://$(dip consul):8500/v1/catalog/service/$service | python -mjson.tool;
+}
+
+function dclist () {
+	wget -q -O- http://$(dip consul):8500/v1/catalog/services | python -mjson.tool;
+}
+
+function dockerregistrator () {
+	local consul_ip="$1";
+	[ ! "$consul_ip" ] && consul_ip=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' consul);
+	[ ! "$consul_ip" ] && {
+		echo "No Consul instance found. Is Consul running?";
+		return 1
+	};
+	echo "Connecting Registrator to Consul at $consul_ip";
+	docker run -d --name=registrator --net=host --volume=/var/run/docker.sock:/tmp/docker.sock --label SERVICE_IGNORE=true gliderlabs/registrator:latest -internal consul://$consul_ip:8500
+}
+
+function sc () {
+	#Update the terminal title text with the arguments of the sc function
+	echo -en "\033]2;$@\007";
+	#Attempt connect to the string passed as argument to sc function
+	ssh -oStrictHostKeyChecking=no $@;
+}
+
+
+
+setup_misc () {
+
+	source ~/.git-prompt.sh
+
+	export GIT_PS1_SHOWCOLORHINTS=1
+	export GIT_PS1_SHOWDIRTYSTATE=1
+	export GIT_PS1_SHOWSTASHSTATE=1
+
+	# stop ls commands being added to bash history
+	export HISTIGNORE="&:ls:[bf]g:exit"
+	export HISTSIZE="GOTCHA"
+	PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+	if [[ $- =~ "i" ]] ; then
+		BLACK=$(tput setaf 0)
+		RED=$(tput setaf 1)
+		GREEN=$(tput setaf 2)
+		LIME_YELLOW=$(tput setaf 190)
+		YELLOW=$(tput setaf 3)
+		POWDER_BLUE=$(tput setaf 153)
+		BLUE=$(tput setaf 4)
+		MAGENTA=$(tput setaf 5)
+		CYAN=$(tput setaf 6)
+		PURPLE=$(tput setaf 141)
+		WHITE=$(tput setaf 7)
+		BRIGHT=$(tput bold)
+		NORMAL=$(tput sgr0)
+		BLINK=$(tput blink)
+		REVERSE=$(tput smso)
+		UNDERLINE=$(tput smul)
+	
+		PS1='\[${BRIGHT}${GREEN}\] ( \[${MAGENTA}\]\u@\h\[${GREEN}\] ) · [ \[${CYAN}\]\w\[${GREEN}\] ] \[${RED}\]$(__git_ps1)\[${GREEN}\]\n >\[${NORMAL}${WHITE}\] '
+	else
+		PS1='\u@\h [\w] \[\033]0;\h \w\007\] $'
+	fi
+
+	# enable color support of ls and also add handy aliases
+	if [ "$TERM" != "dumb" ]; then
+		eval "`dircolors -b`"
+		alias ls='ls --color=auto'
+		alias dir='ls --color=auto --format=vertical'
+		alias vdir='ls --color=auto --format=long'
+		alias grep='grep --color=auto $@ 2> /dev/null'
+	fi
+
+	EDITOR=/usr/bin/vim
+
+	export PS1 LS_OPTIONS EDITOR
+
+	test -f ~/.functions && . ~/.functions || true
+	#export TERMINAL=gnome-terminal
+
+	# Add ssh key
+	ssh-agent
+	ssh-add
+
+}
+
+setup_path () {
+
+	arch=$(uname -a | awk '{print $12}')
+
+	PATH=$PATH:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/:/usr/local/bin/jsdoc-1.10.2
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib:/usr/local/lib:/lib:/opt/tcl8.5/lib/
+
+	# Openbet Path
+	PATH=$PATH:$OPENBET/bin:$OB_RELEASE_BIN:$OB_RELEASE/site_management:~/.m2
+
+	# Openbet Libraries
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OPENBET/lib/${arch}
+
+	export PATH LD_LIBRARY_PATH
+}
+
+
+_go () {
+	setup_misc
+	setup_path
+	#$HOSTNAME 2>/dev/null
+	setup_aliases
+}
+
+_go
+
+# proxy setup - default is without NB ftp is prohibited, and therefore doesn't work
+function proxy() {
+	#echo -n "username:"
+	#read -e username
+	echo -n "password:"
+	read -es password
+	export http_proxy="http://${USER}:$password@${proxy}:8080/"
+	export https_proxy=$http_proxy
+	export ftp_proxy=$http_proxy
+	export rsync_proxy=$http_proxy
+	export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+	echo -e "\nProxy environment variable set."
+}
+
+
+function no_proxy() {
+	unset HTTP_PROXY
+	unset http_proxy
+	unset HTTPS_PROXY
+	unset https_proxy
+	unset FTP_PROXY
+	unset ftp_proxy
+	unset RSYNC_PROXY
+	unset rsync_proxy
+}
+no_proxy
+
